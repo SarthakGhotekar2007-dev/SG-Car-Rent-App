@@ -2,8 +2,17 @@ import 'dart:io' show Platform;
 import 'package:flutter/foundation.dart' show kIsWeb;
 
 class AppUrls {
-  // Automatically selects 10.0.2.2 for Android Emulator, and 127.0.0.1 for Windows/Web/iOS
+  // Production Cloud API URL deployed on Render
+  static const String liveBaseUrl = 'https://sg-car-rent-app-backend.onrender.com/api/v1';
+
+  // Toggle true for production Render cloud, false for local development
+  static const bool useLiveServer = true;
+
   static String get baseUrl {
+    if (useLiveServer) {
+      return liveBaseUrl;
+    }
+    // Automatically selects 10.0.2.2 for Android Emulator, and 127.0.0.1 for Windows/Web/iOS
     if (!kIsWeb && Platform.isAndroid) {
       return 'http://10.0.2.2:8000/api/v1';
     }
