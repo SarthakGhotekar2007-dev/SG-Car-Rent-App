@@ -49,4 +49,6 @@ frontend/ios/Flutter/flutter_export_environment.sh
 *.iws
 .DS_Store
 Thumbs.db
+.firebase/
+frontend/.firebase/
 
