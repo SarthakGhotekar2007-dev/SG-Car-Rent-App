@@ -84,7 +84,7 @@ class SGCarRentApp extends StatelessWidget {
                   ),
                 ),
               ),
-              home: SplashScreen(),
+              home: const SplashScreen(),
             );
           },
         );

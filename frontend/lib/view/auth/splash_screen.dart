@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';import 'package:frontend/const/app_colors.dart';
-import 'package:frontend/const/app_strings.dart';
-import 'package:frontend/view/admin/admin_dashboard.dart';
-import 'package:frontend/view/user/home_screen.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import '../../const/app_colors.dart';
+import '../../const/app_strings.dart';
+import '../admin/admin_dashboard.dart';
+import '../user/home_screen.dart';
 import 'onboarding_screen.dart';
 
-
 class SplashScreen extends StatefulWidget {
-  SplashScreen({super.key});
+  const SplashScreen({super.key});
 
   @override
   State<SplashScreen> createState() => _SplashScreenState();
@@ -21,32 +21,46 @@ class _SplashScreenState extends State<SplashScreen> {
   }
 
   Future<void> _checkAuth() async {
-    await Future.delayed(Duration(seconds: 2));
-    if (!mounted) return;
+    try {
+      // Small smooth delay to show brand logo
+      await Future.delayed(const Duration(milliseconds: 1500));
+      if (!mounted) return;
 
-    final prefs = await SharedPreferences.getInstance();
-    if (!mounted) return;
+      final prefs = await SharedPreferences.getInstance().timeout(
+        const Duration(seconds: 3),
+        onTimeout: () => throw Exception('SharedPreferences timeout'),
+      );
+      if (!mounted) return;
 
-    final token = prefs.getString('access_token');
-    final role = prefs.getString('user_role');
+      final token = prefs.getString('access_token');
+      final role = prefs.getString('user_role');
 
-    if (token != null && token.isNotEmpty) {
-      if (role == 'admin') {
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(builder: (context) => AdminDashboard()),
-        );
+      if (token != null && token.isNotEmpty) {
+        if (role == 'admin') {
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(builder: (context) => AdminDashboard()),
+          );
+        } else {
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(builder: (context) => HomeScreen()),
+          );
+        }
       } else {
         Navigator.pushReplacement(
           context,
-          MaterialPageRoute(builder: (context) => HomeScreen()),
+          MaterialPageRoute(builder: (context) => OnboardingScreen()),
         );
       }
-    } else {
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (context) => OnboardingScreen()),
-      );
+    } catch (e) {
+      debugPrint('SplashScreen auth check fallback: $e');
+      if (mounted) {
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => OnboardingScreen()),
+        );
+      }
     }
   }
 
@@ -57,11 +71,11 @@ class _SplashScreenState extends State<SplashScreen> {
       body: SafeArea(
         child: Center(
           child: Padding(
-            padding: EdgeInsets.symmetric(horizontal: 24.0),
+            padding: const EdgeInsets.symmetric(horizontal: 24.0),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Spacer(),
+                const Spacer(),
                 // App Logo and Name matching reference image screen 1
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -71,7 +85,7 @@ class _SplashScreenState extends State<SplashScreen> {
                       size: 40,
                       color: AppColors.primaryColor,
                     ),
-                    SizedBox(width: 12),
+                    const SizedBox(width: 12),
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -96,7 +110,7 @@ class _SplashScreenState extends State<SplashScreen> {
                     ),
                   ],
                 ),
-                SizedBox(height: 50),
+                const SizedBox(height: 50),
                 // Supercar image preview from local assets
                 ClipRRect(
                   borderRadius: BorderRadius.circular(20),
@@ -118,7 +132,7 @@ class _SplashScreenState extends State<SplashScreen> {
                     ),
                   ),
                 ),
-                Spacer(),
+                const Spacer(),
                 SizedBox(
                   width: 24,
                   height: 24,
@@ -127,7 +141,7 @@ class _SplashScreenState extends State<SplashScreen> {
                     color: AppColors.primaryColor,
                   ),
                 ),
-                SizedBox(height: 30),
+                const SizedBox(height: 30),
               ],
             ),
           ),
