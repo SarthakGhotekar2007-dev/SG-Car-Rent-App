@@ -1,0 +1,51 @@
+# ==============================
+# Python & Backend
+# ==============================
+**/__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+backend/venv/
+venv/
+env/
+ENV/
+.pytest_cache/
+*.log
+
+# Sensitive credentials (keep .env.example)
+backend/.env
+.env
+*.env
+!.env.example
+!backend/.env.example
+
+# ==============================
+# Flutter & Frontend
+# ==============================
+**/.dart_tool/
+**/build/
+.flutter-plugins
+.flutter-plugins-dependencies
+.pub-cache/
+.pub/
+frontend/android/.gradle/
+frontend/android/local.properties
+frontend/android/app/debug/
+frontend/android/app/profile/
+frontend/android/app/release/
+frontend/ios/Pods/
+frontend/ios/.symlinks/
+frontend/ios/Flutter/Generated.xcconfig
+frontend/ios/Flutter/flutter_export_environment.sh
+
+# ==============================
+# IDEs & System files
+# ==============================
+.vscode/
+.idea/
+*.iml
+*.ipr
+*.iws
+.DS_Store
+Thumbs.db
