@@ -3,6 +3,15 @@ from typing import Optional
 from pydantic import BaseModel, ConfigDict
 from app.schemas.car import CarOut
 
+class BookingUserOut(BaseModel):
+    id: int
+    name: str
+    email: str
+    phone: Optional[str] = None
+    avatar_url: Optional[str] = None
+
+    model_config = ConfigDict(from_attributes=True)
+
 class BookingCreate(BaseModel):
     car_id: int
     start_date: date
@@ -24,5 +33,10 @@ class BookingOut(BaseModel):
     status: str
     created_at: datetime
     car: Optional[CarOut] = None
+    user: Optional[BookingUserOut] = None
+    user_name: Optional[str] = None
+    user_email: Optional[str] = None
+    user_phone: Optional[str] = None
+    user_avatar: Optional[str] = None
 
     model_config = ConfigDict(from_attributes=True)

@@ -1,7 +1,7 @@
 from typing import List
 from datetime import date
 from fastapi import APIRouter, Depends, HTTPException, status
-from sqlalchemy.orm import Session
+from sqlalchemy.orm import Session, joinedload
 from sqlalchemy import and_
 from app.db.database import get_db
 from app.models.booking import Booking
@@ -101,7 +101,10 @@ def get_my_bookings(
     db: Session = Depends(get_db)
 ):
     """Retrieve all bookings placed by the currently logged-in user"""
-    bookings = db.query(Booking).filter(
+    bookings = db.query(Booking).options(
+        joinedload(Booking.user),
+        joinedload(Booking.car)
+    ).filter(
         Booking.user_id == current_user.id
     ).order_by(Booking.id.desc()).all()
     return bookings
@@ -113,7 +116,10 @@ def get_booking_by_id(
     db: Session = Depends(get_db)
 ):
     """Retrieve details for a specific booking (only owner or admin)"""
-    booking = db.query(Booking).filter(Booking.id == booking_id).first()
+    booking = db.query(Booking).options(
+        joinedload(Booking.user),
+        joinedload(Booking.car)
+    ).filter(Booking.id == booking_id).first()
     if not booking:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,

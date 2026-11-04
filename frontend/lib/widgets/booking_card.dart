@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
-import '../const/app_colors.dart';
-import '../const/app_language.dart';
-import '../model/booking_model.dart';
+import 'package:frontend/const/app_colors.dart';
+import 'package:frontend/const/app_language.dart';
+import 'package:frontend/model/booking_model.dart';
+
 
 class BookingCard extends StatelessWidget {
   final BookingModel booking;
   final VoidCallback onTap;
   final VoidCallback? onCancel;
 
-  BookingCard({
+  const BookingCard({
     super.key,
     required this.booking,
     required this.onTap,
@@ -36,8 +37,8 @@ class BookingCard extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        margin: EdgeInsets.only(bottom: 16),
-        padding: EdgeInsets.all(16),
+        margin:  EdgeInsets.only(bottom: 16),
+        padding:  EdgeInsets.all(16),
         decoration: BoxDecoration(
           color: AppColors.cardColor,
           borderRadius: BorderRadius.circular(18),
@@ -52,7 +53,7 @@ class BookingCard extends StatelessWidget {
                   child: SizedBox(
                     width: 75,
                     height: 60,
-                    child: booking.car?.imageUrl != null
+                    child: booking.car?.imageUrl != null && booking.car!.imageUrl.isNotEmpty
                         ? Image.network(
                             booking.car!.imageUrl,
                             fit: BoxFit.cover,
@@ -74,7 +75,7 @@ class BookingCard extends StatelessWidget {
                           ),
                   ),
                 ),
-                SizedBox(width: 14), 
+                 SizedBox(width: 14),
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -89,17 +90,38 @@ class BookingCard extends StatelessWidget {
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                       ),
-                      SizedBox(height: 4),
+                      if (booking.userName.isNotEmpty) ...[
+                         SizedBox(height: 3),
+                        Row(
+                          children: [
+                            Icon(Icons.person_outline, size: 13, color: AppColors.primaryColor),
+                             SizedBox(width: 4),
+                            Expanded(
+                              child: Text(
+                                booking.userName,
+                                style: TextStyle(
+                                  color: AppColors.primaryColor,
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                       SizedBox(height: 3),
                       Text(
                         '${booking.startDate} to ${booking.endDate}',
                         style: TextStyle(
                           color: AppColors.secondaryText,
-                          fontSize: 13,
+                          fontSize: 12,
                         ),
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                       ),
-                      SizedBox(height: 4),
+                       SizedBox(height: 3),
                       Text(
                         '${AppLanguage.tr('Total:')} ₹${booking.totalPrice.toStringAsFixed(0)} (${booking.totalDays} ${AppLanguage.tr('days')})',
                         style: TextStyle(
@@ -113,9 +135,9 @@ class BookingCard extends StatelessWidget {
                     ],
                   ),
                 ),
-                SizedBox(width: 8),
+                 SizedBox(width: 8),
                 Container(
-                  padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                  padding:  EdgeInsets.symmetric(horizontal: 10, vertical: 5),
                   decoration: BoxDecoration(
                     color: statusColor.withValues(alpha: 0.15),
                     borderRadius: BorderRadius.circular(20),
@@ -148,14 +170,14 @@ class BookingCard extends StatelessWidget {
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10),
                       ),
-                      padding: EdgeInsets.symmetric(
+                      padding:  EdgeInsets.symmetric(
                         horizontal: 14,
                         vertical: 6,
                       ),
                     ),
                     child: Text(
                       AppLanguage.tr('Cancel Booking'),
-                      style: TextStyle(fontSize: 12),
+                      style:  TextStyle(fontSize: 12),
                     ),
                   ),
                 ],

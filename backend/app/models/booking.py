@@ -20,3 +20,20 @@ class Booking(Base):
     # Relationships
     user = relationship("User", back_populates="bookings")
     car = relationship("Car", back_populates="bookings")
+
+    # Helper properties for easy serialization with user details
+    @property
+    def user_name(self) -> str:
+        return self.user.name if self.user else ""
+
+    @property
+    def user_email(self) -> str:
+        return self.user.email if self.user else ""
+
+    @property
+    def user_phone(self) -> str:
+        return (self.user.phone or "") if self.user else ""
+
+    @property
+    def user_avatar(self) -> str:
+        return (self.user.avatar_url or "") if self.user else ""

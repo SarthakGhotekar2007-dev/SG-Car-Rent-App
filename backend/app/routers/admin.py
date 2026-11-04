@@ -1,6 +1,6 @@
 from typing import List
 from fastapi import APIRouter, Depends, HTTPException, status
-from sqlalchemy.orm import Session
+from sqlalchemy.orm import Session, joinedload
 from app.db.database import get_db
 from app.models.car import Car
 from app.models.category import Category
@@ -111,8 +111,11 @@ def admin_get_all_bookings(
     admin: User = Depends(get_current_admin),
     db: Session = Depends(get_db)
 ):
-    """View all bookings across all users in the system (Admin only)"""
-    bookings = db.query(Booking).order_by(Booking.id.desc()).all()
+    """View all bookings across all users in the system (Admin only) with user & car details"""
+    bookings = db.query(Booking).options(
+        joinedload(Booking.user),
+        joinedload(Booking.car)
+    ).order_by(Booking.id.desc()).all()
     return bookings
 
 @router.patch("/bookings/{booking_id}/status", response_model=BookingOut)

@@ -170,5 +170,21 @@ class AppLanguage {
     'No bookings yet': 'अजून एकही बुकिंग नाही',
     'No favorite cars yet': 'कोणतीही आवडती कार जोडलेली नाही',
     'Explore Cars': 'कार्स शोधा',
+
+    // Customer & Booking Admin Details
+    'Customer Details': 'ग्राहक तपशील',
+    'Customer Info': 'ग्राहक माहिती',
+    'Customer:': 'ग्राहक:',
+    'Customer': 'ग्राहक',
+    'Customer Name': 'ग्राहकाचे नाव',
+    'User ID': 'युझर आयडी',
+    'Phone:': 'फोन:',
+    'Email:': 'ईमेल:',
+    'Location:': 'पिकअप ठिकाण:',
+    'Call Customer': 'कॉल करा',
+    'Email Customer': 'ईमेल करा',
+    'Not provided': 'उपलब्ध नाही',
+    'Booking Request Details': 'बुकिंग विनंती व ग्राहक तपशील',
+    'Close': 'बंद करा',
   };
 }
